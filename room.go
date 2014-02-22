@@ -27,8 +27,8 @@ func (room *Room) Dealer() Player {
 func (room *Room) NonDealers() chan Player {
      c := make(chan Player)
 
-     go func(count int, players []Player, dealerNumber int) {
-        for i := 0; i < count; i++ {
+     go func(players []Player, dealerNumber int) {
+        for i := 0; i < len(players); i++ {
             if i == dealerNumber {
                 continue
             }
@@ -37,7 +37,7 @@ func (room *Room) NonDealers() chan Player {
         }
 
         close(c)
-     }(len(room.Players), room.Players, room.dealer)
+     }(room.Players, room.dealer)
 
      return c
 }
