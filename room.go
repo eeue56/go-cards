@@ -15,6 +15,11 @@ func NewRoom() *Room {
     return &room
 }
 
+func (room *Room) SetPlayers(players []Player) {
+    room.Players = players
+    room.dealer = 0
+}
+
 func (room *Room) Dealer() Player {
     return room.Players[room.dealer]
 }
