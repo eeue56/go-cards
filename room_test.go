@@ -35,3 +35,28 @@ func TestNonDealers(t *testing.T) {
         t.Errorf("Should not be in here!")
     }
 }
+
+func TestRotateDealers(t *testing.T) {
+    players := []Player{ Player{Points:1},
+        Player{Points:2},
+        Player{Points:3},
+        Player{Points:4},
+        Player{Points:5},
+    }
+
+    room := NewRoom() 
+    room.SetPlayers(players)
+
+    if room.Dealer().Points != players[0].Points {
+        t.Errorf("Incorrect dealer set as default")
+    }
+
+    room.RotateDealer()
+
+    if room.Dealer().Points != players[1].Points {
+        t.Errorf("Expected dealer with points %v, got dealer with points %v", 
+            players[1],
+            room.Dealer().Points)
+    }
+
+}
