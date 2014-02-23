@@ -102,7 +102,7 @@ func TestRemovePlayer(t *testing.T) {
     room.SetPlayers(players)
     room.RotateDealer()
 
-    room.RemovePlayer(Player{Points:2});
+    room.RemovePlayer(players[1]);
 
     if (len(room.Players) != 2 || room.Players[1].Points == 2){
         t.Errorf("Failed to remove player correctly")
@@ -113,4 +113,26 @@ func TestRemovePlayer(t *testing.T) {
             room.dealer)
     }
 
+
+    room.RemovePlayer(players[2])
+
+    if (len(room.Players) != 1 || room.Players[0].Points != 1){
+        t.Errorf("Failed to remove player correctly")
+    }
+
+    if (room.dealer != 0) {
+        t.Errorf("Incorrect reassign of dealer, expected dealer id of 0, got %v",
+            room.dealer)
+    }
+
+    room.RemovePlayer(players[0])
+
+    if (len(room.Players) != 0){
+        t.Errorf("Failed to remove player correctly")
+    }
+
+    if (room.dealer != -1) {
+        t.Errorf("Incorrect reassign of dealer, expected dealer id of -1, got %v",
+            room.dealer)
+    }
 }

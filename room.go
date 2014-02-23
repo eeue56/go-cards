@@ -47,8 +47,13 @@ func (room *Room) RemovePlayer(player Player) {
 
     room.SetPlayers(players)
 
+
     if dealer + 1 > len(players) {
         dealer = 0
+    }
+
+    if len(players) == 0 {
+        dealer = -1
     }
 
     room.dealer = dealer
