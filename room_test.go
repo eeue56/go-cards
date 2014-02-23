@@ -67,5 +67,27 @@ func TestRotateDealers(t *testing.T) {
     if room.Dealer().Points != players[0].Points {
         t.Errorf("Incorrect dealer set as default")
     }
+}
 
+func TestAddPlayer(t *testing.T) {
+    players := []Player{ Player{Points:1},
+        Player{Points:2},
+        Player{Points:3},
+        Player{Points:4},
+        Player{Points:5},
+    }
+
+    room := NewRoom() 
+    room.SetPlayers(players)
+    room.RotateDealer()
+
+    room.AddPlayer(Player{Points:6});
+
+    if (room.Players[len(room.Players) - 1].Points != 6){
+        t.Errorf("Failed to add new player correctly")
+    }
+
+    if (room.Dealer().Points != 2){
+        t.Errorf("Failed to correctly keep track of dealer when adding")
+    }
 }

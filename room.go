@@ -20,6 +20,19 @@ func (room *Room) SetPlayers(players []Player) {
     room.dealer = 0
 }
 
+func (room *Room) AddPlayer(player Player) {
+    dealer := room.Dealer()
+    room.SetPlayers(append(room.Players, player))
+
+
+    for player := range room.Players {
+        if room.Players[player].Points == dealer.Points {
+            room.dealer = player
+            break
+        }
+    }
+}
+
 func (room *Room) Dealer() Player {
     return room.Players[room.dealer]
 }
