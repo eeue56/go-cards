@@ -37,7 +37,7 @@ func (room *Room) AddPlayer(player Player) {
 func (room *Room) RemovePlayer(player Player) {
     dealer := room.dealer
 
-    players := []Player{};
+    players := []Player{}
 
     for i := range room.Players {
         if room.Players[i].Points != player.Points {
