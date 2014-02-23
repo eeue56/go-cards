@@ -91,3 +91,26 @@ func TestAddPlayer(t *testing.T) {
         t.Errorf("Failed to correctly keep track of dealer when adding")
     }
 }
+
+func TestRemovePlayer(t *testing.T) {
+    players := []Player{ Player{Points:1},
+        Player{Points:2},
+        Player{Points:3},
+    }
+
+    room := NewRoom() 
+    room.SetPlayers(players)
+    room.RotateDealer()
+
+    room.RemovePlayer(Player{Points:2});
+
+    if (len(room.Players) != 2 || room.Players[1].Points == 2){
+        t.Errorf("Failed to remove player correctly")
+    }
+
+    if (room.dealer != 1 || room.Dealer().Points != 3){
+        t.Errorf("Incorrect reassign of dealer, expected dealer id of 1. Dealer was %v",
+            room.dealer)
+    }
+
+}

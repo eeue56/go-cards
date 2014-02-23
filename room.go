@@ -26,11 +26,32 @@ func (room *Room) AddPlayer(player Player) {
 
 
     for player := range room.Players {
+        // TODO: add uniq for players
         if room.Players[player].Points == dealer.Points {
             room.dealer = player
             break
         }
     }
+}
+
+func (room *Room) RemovePlayer(player Player) {
+    dealer := room.dealer
+
+    players := []Player{};
+
+    for i := range room.Players {
+        if room.Players[i].Points != player.Points {
+            players = append(players, room.Players[i])
+        } 
+    }
+
+    room.SetPlayers(players)
+
+    if dealer + 1 > len(players) {
+        dealer = 0
+    }
+
+    room.dealer = dealer
 }
 
 func (room *Room) Dealer() Player {
