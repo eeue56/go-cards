@@ -8,7 +8,7 @@ type Room struct {
 
 func NewRoom() *Room {
     room := Room{}
-    room.dealer = 0
+    room.dealer = -1
     room.Players = []Player{}
     room.BlackHand = []BlackCard{}
 
@@ -17,7 +17,12 @@ func NewRoom() *Room {
 
 func (room *Room) SetPlayers(players []Player) {
     room.Players = players
-    room.dealer = 0
+
+    if len(players) == 0 {
+        room.dealer = -1
+    } else {
+        room.dealer = 0
+    }
 }
 
 func (room *Room) AddPlayer(player Player) {
@@ -50,8 +55,7 @@ func (room *Room) RemovePlayer(player Player) {
 
     if len(players) == 0 {
         dealer = -1
-    }
-    else if dealer + 1 > len(players) {
+    } else if dealer + 1 > len(players) {
         dealer = 0
     }
 
@@ -60,6 +64,9 @@ func (room *Room) RemovePlayer(player Player) {
 }
 
 func (room *Room) Dealer() Player {
+    if room.dealer == -1 {
+        return Player{}
+    }
     return room.Players[room.dealer]
 }
 
