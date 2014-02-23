@@ -51,12 +51,21 @@ func TestRotateDealers(t *testing.T) {
         t.Errorf("Incorrect dealer set as default")
     }
 
+
+    for i := 1; i < len(players); i++ {
+        room.RotateDealer()
+
+        if room.Dealer().Points != players[i].Points {
+            t.Errorf("Expected dealer with points %v, got dealer with points %v", 
+                players[1],
+                room.Dealer().Points)
+        }
+    }
+
     room.RotateDealer()
 
-    if room.Dealer().Points != players[1].Points {
-        t.Errorf("Expected dealer with points %v, got dealer with points %v", 
-            players[1],
-            room.Dealer().Points)
+    if room.Dealer().Points != players[0].Points {
+        t.Errorf("Incorrect dealer set as default")
     }
 
 }
