@@ -19,3 +19,18 @@ func (player Player) Equal(other Player) bool {
 
     return true
 }
+
+func (player Player) RemoveCard(card WhiteCard) {
+    hand := []WhiteCard{}
+
+    var currentCard WhiteCard;
+    for i := range player.Hand {
+        currentCard = player.Hand[i]
+
+        if currentCard != card {
+            hand = append(hand, currentCard)
+        }
+    }
+
+    player.Hand = hand
+}
