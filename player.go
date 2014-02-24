@@ -5,7 +5,7 @@ type Player struct {
     Points  int
 }
 
-func (player Player) Equal(other Player) bool {
+func (player *Player) Equal(other Player) bool {
 
     if player.Points != other.Points {
         return false
@@ -20,14 +20,14 @@ func (player Player) Equal(other Player) bool {
     return true
 }
 
-func (player Player) RemoveCard(card WhiteCard) {
+func (player *Player) RemoveCard(card WhiteCard) {
     hand := []WhiteCard{}
 
-    var currentCard WhiteCard;
+    var currentCard WhiteCard
+
     for i := range player.Hand {
         currentCard = player.Hand[i]
-
-        if currentCard != card {
+        if !card.Equal(currentCard) {
             hand = append(hand, currentCard)
         }
     }
