@@ -32,7 +32,7 @@ func (room *Room) AddPlayer(player Player) {
 
     for player := range room.Players {
         // TODO: add uniq for players
-        if room.Players[player].Points == dealer.Points {
+        if room.Players[player].Equal(dealer) {
             room.dealer = player
             break
         }
@@ -45,7 +45,7 @@ func (room *Room) RemovePlayer(player Player) {
     players := []Player{}
 
     for i := range room.Players {
-        if room.Players[i].Points != player.Points {
+        if !room.Players[i].Equal(player) {
             players = append(players, room.Players[i])
         } 
     }
