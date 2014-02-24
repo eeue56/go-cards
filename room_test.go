@@ -3,11 +3,11 @@ package gocards
 import "testing"
 
 func TestNonDealers(t *testing.T) {
-    players := []Player{ Player{Points:1},
-        Player{Points:5},
-        Player{Points:6},
-        Player{Points:8},
-        Player{Points:0},
+    players := []*Player{ &Player{Points:1},
+        &Player{Points:5},
+        &Player{Points:6},
+        &Player{Points:8},
+        &Player{Points:0},
     }
 
     room := NewRoom() 
@@ -17,19 +17,19 @@ func TestNonDealers(t *testing.T) {
         room.RotateDealer()
 
         for p := range room.NonDealers() {
-            if p.Equal(room.Dealer()) {
+            if p.Equal(*room.Dealer()) {
                 t.Errorf("Player should not be in dealers! %v", p)
             }
         }
     }
 
-    room.SetPlayers([]Player{})
+    room.SetPlayers([]*Player{})
 
     for _ = range room.NonDealers() {
         t.Errorf("Should not be in here!")
     }
 
-    room.SetPlayers([]Player{Player{Points:1}})
+    room.SetPlayers([]*Player{&Player{Points:1}})
 
     for _ = range room.NonDealers() {
         t.Errorf("Should not be in here!")
@@ -37,17 +37,17 @@ func TestNonDealers(t *testing.T) {
 }
 
 func TestRotateDealers(t *testing.T) {
-    players := []Player{ Player{Points:1},
-        Player{Points:2},
-        Player{Points:3},
-        Player{Points:4},
-        Player{Points:5},
+    players := []*Player{ &Player{Points:1},
+        &Player{Points:2},
+        &Player{Points:3},
+        &Player{Points:4},
+        &Player{Points:5},
     }
 
     room := NewRoom() 
     room.SetPlayers(players)
 
-    if !room.Dealer().Equal(players[0]) {
+    if !room.Dealer().Equal(*players[0]) {
         t.Errorf("Incorrect dealer set as default")
     }
 
@@ -55,7 +55,7 @@ func TestRotateDealers(t *testing.T) {
     for i := 1; i < len(players); i++ {
         room.RotateDealer()
 
-        if !room.Dealer().Equal(players[i]) {
+        if !room.Dealer().Equal(*players[i]) {
             t.Errorf("Expected dealer with points %v, got dealer with points %v", 
                 players[1],
                 room.Dealer().Points)
@@ -64,17 +64,17 @@ func TestRotateDealers(t *testing.T) {
 
     room.RotateDealer()
 
-    if !room.Dealer().Equal(players[0]) {
+    if !room.Dealer().Equal(*players[0]) {
         t.Errorf("Incorrect dealer set as default")
     }
 }
 
 func TestAddPlayer(t *testing.T) {
-    players := []Player{ Player{Points:1},
-        Player{Points:2},
-        Player{Points:3},
-        Player{Points:4},
-        Player{Points:5},
+    players := []*Player{ &Player{Points:1},
+        &Player{Points:2},
+        &Player{Points:3},
+        &Player{Points:4},
+        &Player{Points:5},
     }
 
     room := NewRoom() 
@@ -93,16 +93,16 @@ func TestAddPlayer(t *testing.T) {
 }
 
 func TestRemovePlayer(t *testing.T) {
-    players := []Player{ Player{Points:1},
-        Player{Points:2},
-        Player{Points:3},
+    players := []*Player{ &Player{Points:1},
+        &Player{Points:2},
+        &Player{Points:3},
     }
 
     room := NewRoom() 
     room.SetPlayers(players)
     room.RotateDealer()
 
-    room.RemovePlayer(players[1])
+    room.RemovePlayer(*players[1])
 
     if (len(room.Players) != 2 || room.Players[1].Points == 2){
         t.Errorf("Failed to remove player correctly")
@@ -114,7 +114,7 @@ func TestRemovePlayer(t *testing.T) {
     }
 
 
-    room.RemovePlayer(players[2])
+    room.RemovePlayer(*players[2])
 
     if (len(room.Players) != 1 || room.Players[0].Points != 1){
         t.Errorf("Failed to remove player correctly")
@@ -125,7 +125,7 @@ func TestRemovePlayer(t *testing.T) {
             room.dealer)
     }
 
-    room.RemovePlayer(players[0])
+    room.RemovePlayer(*players[0])
 
     if len(room.Players) != 0 {
         t.Errorf("Failed to remove player correctly")
@@ -138,7 +138,7 @@ func TestRemovePlayer(t *testing.T) {
 }
 
 func TestDealer(t *testing.T) {
-    players := []Player{}
+    players := []*Player{}
 
     room := NewRoom() 
 
@@ -152,5 +152,16 @@ func TestDealer(t *testing.T) {
     if room.dealer != -1{
         t.Errorf("Failed to correctly set dealer to -1 when using SetPlayers")
     }
+
+    players = append(players, &Player{Points:5})
+
+    room.SetPlayers(players)
+
+    if room.dealer != 0{
+        t.Errorf("Failed to correctly set dealer to 0 when using SetPlayers")
+    }
+
+
+
 
 }

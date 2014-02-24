@@ -1,7 +1,7 @@
 package gocards
 
 type Room struct {
-    Players     []Player
+    Players     []*Player
     BlackHand   []BlackCard
     dealer      int
 }
@@ -9,13 +9,13 @@ type Room struct {
 func NewRoom() *Room {
     room := Room{}
     room.dealer = -1
-    room.Players = []Player{}
+    room.Players = []*Player{}
     room.BlackHand = []BlackCard{}
 
     return &room
 }
 
-func (room *Room) SetPlayers(players []Player) {
+func (room *Room) SetPlayers(players []*Player) {
     room.Players = players
 
     if len(players) == 0 {
@@ -27,12 +27,12 @@ func (room *Room) SetPlayers(players []Player) {
 
 func (room *Room) AddPlayer(player Player) {
     dealer := room.Dealer()
-    room.SetPlayers(append(room.Players, player))
+    room.SetPlayers(append(room.Players, &player))
 
 
     for player := range room.Players {
         // TODO: add uniq for players
-        if room.Players[player].Equal(dealer) {
+        if room.Players[player].Equal(*dealer) {
             room.dealer = player
             break
         }
@@ -42,7 +42,7 @@ func (room *Room) AddPlayer(player Player) {
 func (room *Room) RemovePlayer(player Player) {
     dealer := room.dealer
 
-    players := []Player{}
+    players := []*Player{}
 
     for i := range room.Players {
         if !room.Players[i].Equal(player) {
@@ -63,17 +63,17 @@ func (room *Room) RemovePlayer(player Player) {
     room.dealer = dealer
 }
 
-func (room *Room) Dealer() Player {
+func (room *Room) Dealer() *Player {
     if room.dealer == -1 {
-        return Player{}
+        return &Player{}
     }
     return room.Players[room.dealer]
 }
 
-func (room *Room) NonDealers() chan Player {
-     c := make(chan Player)
+func (room *Room) NonDealers() chan *Player {
+     c := make(chan *Player)
 
-     go func(players []Player, dealerNumber int) {
+     go func(players []*Player, dealerNumber int) {
         for i := 0; i < len(players); i++ {
             if i == dealerNumber {
                 continue
