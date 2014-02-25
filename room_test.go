@@ -160,8 +160,24 @@ func TestDealer(t *testing.T) {
     if room.dealer != 0{
         t.Errorf("Failed to correctly set dealer to 0 when using SetPlayers")
     }
+}
 
+func TestDealBlackCard(t *testing.T) {
+    room := NewRoom()
 
+    if room.DealBlackCard() != nil {
+        t.Errorf("Failed to return nil when BlackHand empty")
+    }
 
+    blacks := []*BlackCard{ &BlackCard{ Card{"hello"}}}
 
+    room.BlackHand = blacks
+
+    if room.DealBlackCard() != blacks[0] {
+        t.Errorf("Incorrect card dealt!")
+    }
+
+    if len(room.BlackHand) != 0 {
+        t.Errorf("Failed to remove card from deck")
+    }
 }

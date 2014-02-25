@@ -2,7 +2,7 @@ package gocards
 
 type Room struct {
     Players     []*Player
-    BlackHand   []BlackCard
+    BlackHand   []*BlackCard
     dealer      int
 }
 
@@ -10,7 +10,7 @@ func NewRoom() *Room {
     room := Room{}
     room.dealer = -1
     room.Players = []*Player{}
-    room.BlackHand = []BlackCard{}
+    room.BlackHand = []*BlackCard{}
 
     return &room
 }
@@ -94,4 +94,15 @@ func (room *Room) RotateDealer() {
     } else {
         room.dealer++
     }
+}
+
+func (room *Room) DealBlackCard() *BlackCard {
+    if len(room.BlackHand) == 0 {
+        return nil
+    }
+
+    black := room.BlackHand[0]
+    room.BlackHand = room.BlackHand[1:]
+
+    return black
 }
