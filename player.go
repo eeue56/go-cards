@@ -34,3 +34,7 @@ func (player *Player) RemoveCard(card WhiteCard) {
 
     player.Hand = hand
 }
+
+func (player *Player) Winner() {
+    player.Points++
+}

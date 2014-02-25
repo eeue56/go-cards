@@ -41,3 +41,13 @@ func TestRemoveCard(t *testing.T) {
     }
 
 }
+
+func TestWinner(t *testing.T) { 
+    player := Player{}
+
+    player.Winner()
+
+    if (player.Points != 1) { 
+        t.Errorf("Points not correctly changed on winner")
+    }
+}
